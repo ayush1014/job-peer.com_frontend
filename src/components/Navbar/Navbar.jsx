@@ -1,92 +1,14 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { Fragment, useState, useEffect } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { PlusIcon } from "@heroicons/react/20/solid";
-import { useParams, useNavigate } from "react-router-dom";
-import AddJobs from "./home/homeComponents/addJobs";
+import React, { Fragment } from 'react';
+import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { a } from 'react-router-dom';
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { PlusIcon } from '@heroicons/react/20/solid';
+
 function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
-const Navbar = () => {
-  const [activeLink, setActiveLink] = useState("home");
-  const [addJob, setAddJob] = useState(false);
-  const [isOpen, setOpen] = useState(false);
-  const [storedUser, setStoredUser] = useState(null);
-  const [authenticate, setAuthenticate] = useState(false);
-  const [home, setHome] = useState(true);
-
-  const [viewAllJobs, setViewAllJobs] = useState(false);
-  const [jobStats, setJobStats] = useState(true);
-  const [appStats, setAppStats] = useState(false);
-  const [leaderboard, setLeaderboard] = useState(false);
-
-  const handleLinkClick = (link) => {
-    setActiveLink(link);
-  };
-  const handelAddJob = () => {
-    setAddJob(!addJob);
-  };
-  const navigate = useNavigate();
-  const { username } = useParams();
-
-  useEffect(() => {
-    const userCheckStr = sessionStorage.getItem("User");
-    if (userCheckStr) {
-      const userCheck = JSON.parse(userCheckStr);
-      setStoredUser(userCheck);
-    } else {
-      console.log("Nothing in Storage");
-    }
-    const currentPath = window.location.pathname;
-    if (currentPath.startsWith(`/home/${username}`)) {
-      setActiveLink("home");
-    } else if (currentPath.startsWith(`/jobs/${username}`)) {
-      setActiveLink("jobs");
-    } else if (currentPath.startsWith("/leaderboard")) {
-      setActiveLink("leaderboard");
-    }
-  }, [username]);
-
-  const handleJobs = () => {
-    handleLinkClick("jobs"); // First update the active link
-    console.log("activeLink after updating:", activeLink);
-    console.log("Navigating to:", `/jobs/${username}`);
-    navigate(`/jobs/${username}`); // Then navigate
-  };
-
-  const handleHome = () => {
-    handleLinkClick("home"); // First update the active link
-    console.log("activeLink after updating:", activeLink);
-    console.log("Navigating to:", `/home/${username}`);
-    navigate(`/home/${username}`); // Then navigate
-  };
-
-  const handleLogout = () => {
-    sessionStorage.clear();
-    navigate("/");
-    setOpen(false);
-  };
-
-  const handleJobStats = () => {
-    setLeaderboard(false);
-    setAppStats(false);
-    setJobStats(true);
-  };
-
-  const handleAppStats = () => {
-    setLeaderboard(false);
-    setAppStats(true);
-    setJobStats(false);
-  };
-
-  const handleLeaderboard = () => {
-    setAppStats(false);
-    setJobStats(false);
-    setLeaderboard(true);
-  };
-
+const Navbar = ({ handleHome, handleJobs, handleLeaderboard, handleLogout, username, userEmail, handelAddJob}) => {
   return (
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
@@ -108,9 +30,7 @@ const Navbar = () => {
                 </div>
                 <div className="flex flex-shrink-0 items-center">
                   <a
-                    style={{ textDecoration: "none", cursor: "pointer" }}
-                    to="/home"
-                  >
+                              style={{ textDecoration: 'none', cursor: 'pointer' }} to="/home">
                     <img
                       className="h-8 w-auto"
                       src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -120,46 +40,22 @@ const Navbar = () => {
                 </div>
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
                   <a
-                    style={{ textDecoration: "none", cursor: "pointer" }}
-                    onClick={handleHome}
-                    className={classNames(
-                      "inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500",
-                      activeLink === "home"
-                        ? "border-b-2 border-indigo-500 text-gray-900"
-                        : "hover:border-gray-300 hover:text-gray-700"
-                    )}
-                  >
+                              style={{ textDecoration: 'none', cursor: 'pointer' }} onClick={handleHome} className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900">
                     Home
                   </a>
                   <a
-                    style={{ textDecoration: "none", cursor: "pointer" }}
-                    onClick={handleJobs}
-                    className={classNames(
-                      "inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500",
-                      activeLink === "jobs"
-                        ? "border-b-2 border-indigo-500 text-gray-900"
-                        : "hover:border-gray-300 hover:text-gray-700"
-                    )}
-                  >
+                              style={{ textDecoration: 'none', cursor: 'pointer' }} onClick={handleJobs} className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
                     Jobs
                   </a>
                   <a
-                    style={{ textDecoration: "none", cursor: "pointer" }}
-                    onClick={handleLeaderboard}
-                    className={classNames(
-                      "inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500",
-                      activeLink === "leaderboard"
-                        ? "border-b-2 border-indigo-500 text-gray-900"
-                        : "hover:border-gray-300 hover:text-gray-700"
-                    )}
-                  >
+                              style={{ textDecoration: 'none', cursor: 'pointer' }} onClick={handleLeaderboard} className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
                     Leaderboard
                   </a>
                 </div>
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <button
+                <button
                     type="button"
                     onClick={handelAddJob}
                     className="relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -204,14 +100,11 @@ const Navbar = () => {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              style={{
-                                textDecoration: "none",
-                                cursor: "pointer",
-                              }}
+                              style={{ textDecoration: 'none', cursor: 'pointer' }}
                               href="#"
                               className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
                               )}
                             >
                               Your Profile
@@ -221,14 +114,11 @@ const Navbar = () => {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              style={{
-                                textDecoration: "none",
-                                cursor: "pointer",
-                              }}
+                              style={{ textDecoration: 'none', cursor: 'pointer' }}
                               href="#"
                               className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
                               )}
                             >
                               Settings
@@ -238,14 +128,11 @@ const Navbar = () => {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              style={{
-                                textDecoration: "none",
-                                cursor: "pointer",
-                              }}
+                              style={{ textDecoration: 'none', cursor: 'pointer' }}
                               onClick={handleLogout}
                               className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
                               )}
                             >
                               Sign out
@@ -295,12 +182,8 @@ const Navbar = () => {
                   />
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium text-gray-800">
-                    {storedUser && storedUser.username}
-                  </div>
-                  <div className="text-sm font-medium text-gray-500">
-                    {storedUser && storedUser.userEmail}
-                  </div>
+                  <div className="text-base font-medium text-gray-800">{username}</div>
+                  <div className="text-sm font-medium text-gray-500">{userEmail}</div>
                 </div>
                 <button
                   type="button"
@@ -336,14 +219,9 @@ const Navbar = () => {
               </div>
             </div>
           </Disclosure.Panel>
-          {addJob && (
-            <div>
-              <AddJobs handelAddJob={handelAddJob} />
-            </div>
-          )}
         </>
       )}
     </Disclosure>
-  );
-};
+  )
+}
 export default Navbar;

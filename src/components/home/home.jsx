@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import './home.css'
 import { useParams, useNavigate } from 'react-router-dom';
 import AddJobs from './homeComponents/addJobs';
-import ViewJobs from '../Jobs/viewAllJobs';
+import ViewJobs from './homeComponents/viewAllJobs';
 import Piechar from './homeComponents/piechar';
 import JobStatsBarChart from './homeComponents/barchat'
 import HomeJobs from '../home/homeComponents/HomeJobs'
@@ -60,7 +61,6 @@ function Home() {
   }, [storedUser, username, navigate]); // Include `navigate` in dependencies
 
   const handelAddJob = () => {
-    console.log("updated value job", addJob)
     setAddJob(!addJob);
   }
 
@@ -143,6 +143,7 @@ function Home() {
         </div>
         
         {home && <div className='home'>
+
           <div className='wrapper'>
             <div className='charts-container'>
               <div className='stats-btn'>
@@ -176,65 +177,4 @@ function Home() {
 }
 
 export default Home;
-
-<div className="lg:col-start-3">
-              {/* Activity feed */}
-              <h2 className="text-sm font-semibold leading-6 text-gray-900">Activity</h2>
-              <ul role="list" className="mt-6 space-y-6">
-                {activity.map((activityItem, activityItemIdx) => (
-                  <li key={activityItem.id} className="relative flex gap-x-4">
-                    <div
-                      className={classNames(
-                        activityItemIdx === activity.length - 1 ? 'h-6' : '-bottom-6',
-                        'absolute left-0 top-0 flex w-6 justify-center'
-                      )}
-                    >
-                      <div className="w-px bg-gray-200" />
-                    </div>
-                    {activityItem.type === 'commented' ? (
-                      <>
-                        <img
-                          src={activityItem.person.imageUrl}
-                          alt=""
-                          className="relative mt-3 h-6 w-6 flex-none rounded-full bg-gray-50"
-                        />
-                        <div className="flex-auto rounded-md p-3 ring-1 ring-inset ring-gray-200">
-                          <div className="flex justify-between gap-x-4">
-                            <div className="py-0.5 text-xs leading-5 text-gray-500">
-                              <span className="font-medium text-gray-900">{activityItem.person.name}</span> commented
-                            </div>
-                            <time
-                              dateTime={activityItem.dateTime}
-                              className="flex-none py-0.5 text-xs leading-5 text-gray-500"
-                            >
-                              {activityItem.date}
-                            </time>
-                          </div>
-                          <p className="text-sm leading-6 text-gray-500">{activityItem.comment}</p>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="relative flex h-6 w-6 flex-none items-center justify-center bg-white">
-                          {activityItem.type === 'paid' ? (
-                            <CheckCircleIcon className="h-6 w-6 text-indigo-600" aria-hidden="true" />
-                          ) : (
-                            <div className="h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300" />
-                          )}
-                        </div>
-                        <p className="flex-auto py-0.5 text-xs leading-5 text-gray-500">
-                          <span className="font-medium text-gray-900">{activityItem.person.name}</span>{' '}
-                          {activityItem.type} the invoice.
-                        </p>
-                        <time
-                          dateTime={activityItem.dateTime}
-                          className="flex-none py-0.5 text-xs leading-5 text-gray-500"
-                        >
-                          {activityItem.date}
-                        </time>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
 

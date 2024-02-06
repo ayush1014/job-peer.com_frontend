@@ -1,0 +1,180 @@
+
+.btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 20px; /* Reduced gap for smaller screens */
+    padding-left: 2%;
+}
+
+.add-btn, .logout-btn {
+    border-radius: 20px;
+    padding: 10px 20px; /* Increased padding for better touch target */
+    color: white;
+    border-width: 0px;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.add-btn {
+    background-color: rgb(59, 59, 247);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically on smaller screens */
+    width: 100%;
+    margin: auto;
+    gap: 30px; /* Reduced gap for smaller screens */
+}
+
+.charts-container, .layout-job {
+    width: 100%; /* Full width on smaller screens */
+    /* margin-top: 2%; */
+}
+.charts-container{
+    padding: 2%;
+}
+.layout-job{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: -7%;
+    justify-content: center;
+}
+
+.layout-job span{
+    text-align: center;
+    font-size: 150%;
+    color: blue;
+    margin-bottom: -8%;
+    margin-top: 8%;
+}
+.charts-container{
+    padding-top: 2%;
+}
+
+
+.pie-chart-container, .bar-chart-container {
+    max-height: 50vh;
+    max-width: 100%;
+    position: relative;
+}
+
+.bar-chart-container {
+    max-height: 50vh;
+    max-width: 100%;
+    position: relative;
+}
+
+.bar-chart-container canvas {
+    min-height: 80%;
+    max-height: 85%;
+    max-width: 100%;
+    padding: 2%;
+    position: relative;
+}
+
+.pie-chart-container canvas{
+    min-height: 88%;
+    max-height: 90%;
+    max-width: 100%;
+    padding: 2%;
+    position: relative;
+}
+
+
+.user-welcome {
+    text-align: center; /* Centered text for smaller screens */
+    font-size: 100%; /* Reduced font size for smaller screens */
+}
+
+.user-welcome-span {
+    color: brown;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media only screen and (max-width: 416px){
+    .home{
+        padding-top: 15%;
+    }
+
+    .bar-chart-container canvas {
+        max-height: 84%;
+    }
+}
+@media only screen and (max-width: 768px){
+    .home{
+        padding-top: 10%;
+    } 
+        .hamburger-react{
+            position: fixed !important;
+            left:85%;
+        }
+        .hamburger-menu {
+          display: block; /* Show the hamburger icon on smaller screens */
+        }
+      
+        /* Hide buttons when hamburger is not toggled */
+        .nav button {
+          display: none;
+        }
+      
+        /* When the hamburger menu is open, display the buttons */
+        .nav.open button {
+          display: block;
+          /* Additional styles for the dropdown menu */
+          background: #333; /* Adjust background as needed */
+          color: whitesmoke; /* Adjust text color as needed */
+          width: 100%; /* Full width */
+          text-align:center; /* Align text to the left */
+          position: relative;
+          top:25px;
+        }
+}
+@media only screen and (max-width: 820px){
+    .home{
+        padding-top: 12%;
+    }
+}
+@media only screen and (min-width: 1024px){
+    .home{
+        padding-top: 3%;
+    }
+}
+@media only screen and (width: 1024px){
+    .home{
+        padding-top: 10%;
+    }
+}
+@media only screen and (width: 912px){
+    .home{
+        padding-top: 10%;
+    }
+}
+
+
+@media (min-width: 768px) {
+    .wrapper {
+        flex-direction: row; /* Row direction for larger screens */
+        gap: 54px; /* Increased gap for larger screens */
+    }
+
+    .charts-container, .layout-job {
+        width: 48%; /* Adjust width for larger screens */
+    }
+
+    .user-welcome {
+        text-align: left; /* Left-aligned text for larger screens */
+        padding-left: 2%;
+        font-size: 150%; /* Increased font size for larger screens */
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+    .btn-container {
+        gap: 50px; /* Increased gap for larger screens */
+    }
+}

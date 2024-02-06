@@ -1,11 +1,28 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+import './signup.css'
 import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import api from '../config/axios'
+import Row from 'react-bootstrap/Row';
+import api from '../../config/axios'
 import { useNavigate } from 'react-router-dom';
+import Particles from "react-tsparticles";
+import particlesConfig from '../particles/particlesConfig.json'; 
 
-
+/*
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+*/
 export default function Signup() {
     const [status, setStatus] = useState(null);
     const [name, setName]= useState();
@@ -180,7 +197,7 @@ export default function Signup() {
   
             <p className="mt-10 text-center text-sm text-gray-500">
               Already a member?{' '}
-              <a onClick={() => navigate('/')} style={{ textDecoration: 'none', cursor: 'pointer' }} href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+              <a onClick={navigate('/')} style={{ textDecoration: 'none', cursor: 'pointer' }} href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                 Sign In
               </a>
             </p>

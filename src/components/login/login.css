@@ -1,0 +1,96 @@
+/* Global Styles */
+.main {
+    height: 100%; /* Set the height of the body and html to full viewport */
+    margin: 0; /* Reset default margin */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+/* Signup Container */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: antiquewhite;
+    margin-top: 8%;
+    padding: 4%;
+    width: 25%; /* Adjust width as per your requirement */
+    box-shadow: 12px 18px 6px 0 rgba(10,10,10,0.2); /* Initial shadow for normal state */
+    transition: all 0.5s ease; /* Transition effect for smooth changes */
+}
+
+.main-container:hover {
+    box-shadow: 0 4px 2px -2px rgba(10,10,10,0.2); /* Less pronounced shadow for clicked effect */
+    transform: translateY(5px); /* Slightly move the box down */
+}
+
+h1 {
+    margin-top: 10px; /* Add some space at the top */
+    align-self: flex-start; /* Align to the start of the flex container */
+    width: 100%; /* Full width */
+    text-align: center; /* Center the text */
+}
+
+.submit-btn.submit-btn{
+    align-self:center;
+    width: 50%;
+    background-color:blue; /* Change background color */
+    color: whitesmoke; /* Change text color if needed */
+    border:2px solid blue;
+}
+
+/* For hover state */
+.submit-btn.submit-btn:hover {
+    background-color:white; /* Change background color when hovered */
+    border: 2px solid blue;
+    color: black; /* Change text color when hovered */
+}
+
+.error-label {
+    color: red;
+}
+
+.error-control {
+    border-color: red;
+}
+
+.error-message {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.8em;
+}
+
+/* @media only screen and (max-width: 420px){
+.main-container {
+    margin-top: 38% !important;
+    min-height: 35vh;
+    width: 90% !important;
+}
+}
+
+@media only screen and (max-width: 500px){
+    .main-container{
+        margin-top: 38% !important;
+        min-height: 35vh;
+        width: 90% !important;
+    }
+} */
+
+@media only screen and (max-width: 768px){
+    .main-container{
+        margin-top: 10% !important;
+        min-height: 35vh;
+        width: 90% !important;
+    }
+}
+
+@media only screen and (min-width: 1024px){
+    .main-container{
+        text-align: center;
+        min-height: 35vh;
+        width: 50% !important;
+    }
+};
+    
