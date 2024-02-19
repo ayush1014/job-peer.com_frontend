@@ -364,6 +364,17 @@ const Navbar = () => {
                 )}>
                 Peerboard
               </Disclosure.Button>
+              <Disclosure.Button
+                onClick={handlePeerboard}
+                as="a"
+                href="#"
+                className={classNames(
+                  "block py-2 pl-3 pr-4 text-base font-medium sm:pl-5 sm:pr-6 no-underline",
+                  activeLink === "peerchat" ? "border-l-4 border-indigo-500 bg-indigo-50 text-indigo-700" : "border-l-4 border-transparent text-gray-500",
+                  "hover:border-gray-300 hover:text-gray-700"
+                )}>
+                Peer chat
+              </Disclosure.Button>
             </div>
             <div className="border-t border-gray-200 pb-3 pt-4 no-underline">
               <div className="flex items-center px-4 sm:px-6">
