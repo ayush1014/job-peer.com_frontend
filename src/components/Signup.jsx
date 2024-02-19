@@ -20,12 +20,14 @@ export default function Signup() {
 
     async function HandleSubmit(e){
         e.preventDefault();
+        const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         setStatus(null);
         let userInfo = {
             'username' : username,
             'name' : name,
             'email' : email,
             'password' : password,
+            'timeZone' : currentTimezone
         }
         console.log(userInfo)
         try{
