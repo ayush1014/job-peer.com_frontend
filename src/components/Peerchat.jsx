@@ -201,7 +201,7 @@ export default function Peerchat() {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
-      <div className="flex flex-1 md:overflow-hidden overflow-auto">
+      <div className="flex flex-1 md:overflow-hidden">
         {/* Sidebar */}
         <div className={`${isChatOpen ? 'hidden' : 'block'} md:flex flex-col w-full md:w-80 bg-white shadow-md z-10`}>
           <div className="p-4 border-b md:border-b-0">
