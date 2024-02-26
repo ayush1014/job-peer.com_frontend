@@ -201,17 +201,17 @@ export default function Peerchat() {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1">
         {/* Sidebar */}
         <div className={`${isChatOpen ? 'hidden' : 'block'} md:flex flex-col w-full md:w-80 bg-white shadow-md z-10`}>
           <div className="p-4 border-b md:border-b-0">
             <h2 className="text-lg font-semibold">Peers</h2>
           </div>
-          <ul className="flex-1 overflow-auto">
+          <ul className="overflow-auto h-full">
             {peerJobs.map((peer) => (
               <li
                 key={peer.username}
-                className="flex justify-between items-center p-2 hover:bg-gray-100 border-b border-gray-200 overflow-auto"
+                className="flex justify-between items-center p-2 hover:bg-gray-100 border-b border-gray-200"
               >
 
                 <div className="flex items-center justify-start">
