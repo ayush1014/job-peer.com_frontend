@@ -15,6 +15,7 @@ export default function Peerchat() {
   const [message, setMessage] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [activeChatConversationId, setActiveChatConversationId] = useState(null);
+  const [unreadCounts, setUnreadCounts] = useState({});
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -24,21 +25,88 @@ export default function Peerchat() {
   }, [messages]);
 
   useEffect(() => {
-    socket.on('newMessage', (incomingMessage) => {
+    socket.on('newMessage', async (incomingMessage) => {
       if (incomingMessage.conversationId === activeChatConversationId) {
         setMessages((prevMessages) => [...prevMessages, incomingMessage]);
+        if (incomingMessage.receiver === JSON.parse(sessionStorage.getItem('User')).username && activeChatUser === incomingMessage.sender) {
+          const messageId = incomingMessage.id;
+          try {
+            await markMessagesAsRead([messageId]);
+          } catch (error) {
+            console.error('Error marking messages as read:', error);
+          }
+        }
       }
     });
 
     return () => {
       socket.off('newMessage');
     };
-  }, [activeChatConversationId]);
+  }, [activeChatConversationId, activeChatUser]);
 
 
 
   useEffect(() => {
-    // Fetch peer jobs on component mount or when the active chat user changes
+    socket.on('messageRead', ({ messageId }) => {
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === messageId ? { ...msg, isRead: true } : msg
+        )
+      );
+    });
+
+    return () => {
+      socket.off('messageRead');
+    };
+  }, []);
+  useEffect(() => {
+
+    const fetchUnreadMessageCount = async (sender) => {
+      try {
+        const response = await api.get(`/unreadMessagesCount/${sender}`);
+        if (response.data) {
+          setUnreadCounts(prevCounts => ({
+            ...prevCounts,
+            [sender]: response.data.unreadCount,
+          }));
+        }
+      } catch (error) {
+        console.error('Error fetching unread message count:', error);
+      }
+    };
+    const fetchAllUnreadMessageCounts = async () => {
+      for (const peer of peerJobs) {
+        await fetchUnreadMessageCount(peer.username);
+      }
+    };
+
+    fetchAllUnreadMessageCounts();
+  }, [peerJobs]);
+
+  useEffect(() => {
+    const handleUnreadCountUpdate = ({ sender, count }) => {
+      if (activeChatUser !== sender) {
+        setUnreadCounts(prevCounts => ({
+          ...prevCounts,
+          [sender]: count,
+        }));
+      } else {
+        setUnreadCounts(prevCounts => ({
+          ...prevCounts,
+          [sender]: 0,
+        }));
+      }
+    };
+
+    socket.on('unreadCountUpdate', handleUnreadCountUpdate);
+
+    return () => {
+      socket.off('unreadCountUpdate', handleUnreadCountUpdate);
+    };
+  }, [activeChatUser]);
+
+
+  useEffect(() => {
     const fetchPeers = async () => {
       const storedUser = JSON.parse(sessionStorage.getItem('User')).username;
       try {
@@ -56,10 +124,30 @@ export default function Peerchat() {
     fetchPeers();
   }, [activeChatUser]);
 
+  const markMessagesAsRead = async (messageIds) => {
+    try {
+      await api.post(`/messages/markAsReadBulk`, { messageIds });
+      messageIds.forEach(id => {
+        socket.emit('messageRead', { messageId: id });
+      });
+    } catch (error) {
+      console.error('Error marking messages as read:', error);
+    }
+  };
+
+
+
+
   const fetchChatHistory = async (conversationId) => {
     try {
       const { data } = await api.get(`/messages/${conversationId}`);
       setMessages(data);
+      const unreadMessageIds = data
+        .filter(msg => !msg.isRead && msg.receiver === JSON.parse(sessionStorage.getItem('User')).username)
+        .map(msg => msg.id);
+      if (unreadMessageIds.length > 0) {
+        markMessagesAsRead(unreadMessageIds);
+      }
     } catch (error) {
       console.error('Error fetching chat history:', error);
     }
@@ -70,16 +158,10 @@ export default function Peerchat() {
     setActiveChatUser(username);
     setActiveChatUserName(name);
     setIsChatOpen(true);
-
-    // Fetch or create a conversationId from the backend
     try {
       const { data } = await api.get(`/conversations/getOrCreate?sender=${encodeURIComponent(JSON.parse(sessionStorage.getItem('User')).username)}&receiver=${encodeURIComponent(username)}`);
       setActiveChatConversationId(data.conversationId);
-
-      // Fetch chat history
       await fetchChatHistory(data.conversationId);
-
-      // Then emit to join the socket room
       socket.emit('joinConversation', data.conversationId);
     } catch (error) {
       console.error('Error fetching or creating conversation:', error);
@@ -105,7 +187,6 @@ export default function Peerchat() {
       conversationId: activeChatConversationId,
     };
 
-    // Emit the message
     socket.emit('sendMessage', messageData);
     setMessage("");
   };
@@ -126,12 +207,20 @@ export default function Peerchat() {
           </div>
           <ul>
             {peerJobs.map((peer) => (
-              <li key={peer.username} className="flex justify-between items-center p-2 hover:bg-gray-100">
-                <div className="overflow-auto whitespace-nowrap">
+              <li
+                key={peer.username}
+                className="flex justify-between items-center p-2 hover:bg-gray-100 border-b border-gray-200"
+              >
+                <div className="flex items-center justify-start">
                   <span className="text-sm font-medium">{peer.name} (@{peer.username})</span>
+                  {unreadCounts[peer.username] > 0 && (
+                    <span className="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                      {unreadCounts[peer.username]}
+                    </span>
+                  )}
                 </div>
                 <button
-                  className="ml-2 inline-flex items-center px-3 py-1 border border-transparent rounded-md text-xs font-medium text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="ml-2 inline-flex items-center px-3 py-1 border border-transparent rounded-md text-sm font-medium text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   onClick={() => startChat(peer.username, peer.name)}
                 >
                   Chat
@@ -199,7 +288,7 @@ export default function Peerchat() {
           ) : (
             <div className="flex flex-grow justify-center items-center">
               <ChatBubbleOvalLeftIcon className="h-20 w-20 text-gray-400" aria-hidden="true" />
-              <p className="mt-2 text-lg text-gray-600">Select a friend to start chatting</p>
+              <p className="mt-2 text-lg text-gray-600">Select a Peer to start chatting</p>
             </div>
           )}
         </div>
