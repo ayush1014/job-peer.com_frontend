@@ -48,7 +48,7 @@ function HomeJobs() {
       <div className="allJobs">
         <ul role="list" className="pl-0 mt-6 space-y-6">
           {jobs
-            ? jobs.slice(0, 7).map((activityItem) => (
+            ? jobs.slice(0, 5).map((activityItem) => (
                 <li key={activityItem.id} className="relative flex gap-x-4">
                   <div
                     className="-bottom-6
