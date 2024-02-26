@@ -207,11 +207,11 @@ export default function Peerchat() {
           <div className="p-4 border-b md:border-b-0">
             <h2 className="text-lg font-semibold">Peers</h2>
           </div>
-          <ul className="overflow-auto h-full">
+          <ul className="flex-1 overflow-auto">
             {peerJobs.map((peer) => (
               <li
                 key={peer.username}
-                className="flex justify-between items-center p-2 hover:bg-gray-100 border-b border-gray-200"
+                className="flex justify-between items-center p-2 hover:bg-gray-100 border-b border-gray-200 overflow-auto"
               >
 
                 <div className="flex items-center justify-start">
