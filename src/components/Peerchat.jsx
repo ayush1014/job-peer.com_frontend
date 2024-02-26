@@ -196,21 +196,24 @@ export default function Peerchat() {
     setActiveChatUserName("");
     setIsChatOpen(false);
   };
+
+  // const maxMessagesHeight = `calc(100vh - 16rem)`;
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <div className={`${isChatOpen ? 'hidden' : 'block'} md:flex flex-col w-full md:w-80 bg-white shadow-md z-10 overflow-y-auto`}>
+        <div className={`${isChatOpen ? 'hidden' : 'block'} md:flex flex-col w-full md:w-80 bg-white shadow-md z-10`}>
           <div className="p-4 border-b md:border-b-0">
             <h2 className="text-lg font-semibold">Friends</h2>
           </div>
-          <ul>
+          <ul className="flex-1 overflow-auto">
             {peerJobs.map((peer) => (
               <li
                 key={peer.username}
                 className="flex justify-between items-center p-2 hover:bg-gray-100 border-b border-gray-200"
               >
+
                 <div className="flex items-center justify-start">
                   <span className="text-sm font-medium">{peer.name} (@{peer.username})</span>
                   {unreadCounts[peer.username] > 0 && (
