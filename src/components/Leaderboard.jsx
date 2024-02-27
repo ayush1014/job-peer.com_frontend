@@ -1,4 +1,3 @@
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Fragment, useState, useEffect } from 'react'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import { Combobox, Dialog, Transition } from '@headlessui/react'
@@ -18,7 +17,6 @@ export default function Leaderboard() {
     const [people, setPeople] = useState([]);
     const [peerJobs, setPeerJobs] = useState([]);
     const [addClick, setAddClick] = useState(false);
-    const [peers, setPeers] = useState();
 
     useEffect(() => {
         const username = JSON.parse(sessionStorage.getItem('User')).username;
@@ -93,8 +91,8 @@ export default function Leaderboard() {
     const handleAdd = async (person) => {
         if (!storedUser) return;
         try {
-            const response = await api.get(`/peerFollow/${storedUser}/${person.username}`);
-            console.log(response.data.message);
+            await api.get(`/peerFollow/${storedUser}/${person.username}`);
+            // console.log(response.data.message);
             // setPeerJobs(currentPeers => [...currentPeers, person]);
             setAddClick(prevState => ({ ...prevState, [person.username]: true }));
         } catch (error) {

@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-redundant-roles */
 import React, { useEffect, useState } from "react";
 import api from "../config/axios";
-import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/20/solid";
 import Navbar from "./Navbar";
 import { useParams, useNavigate } from "react-router-dom";
 import AddJobs from "./home/homeComponents/addJobs";
@@ -15,24 +14,14 @@ export default function ViewAllJobs() {
   const [showJobCards, setShowJobCards] = useState(true);
   const [showDetail, setShowDetail] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState(null);
-  const [editmode, setEditmode] = useState(false);
-  const [editJob, setEditJob] = useState({});
   const [search, setSearch] = useState("");
   const [checkSearch, setCheckSearch] = useState(false);
   const [filteredJobs, setFilteredJobs] = useState([]);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { username } = useParams();
   const navigate = useNavigate();
-
-  const [isOpen, setOpen] = useState(false);
   const [storedUser, setStoredUser] = useState(null);
   const [authenticate, setAuthenticate] = useState(false);
-  const [home, setHome] = useState(true);
   const [addJob, setAddJob] = useState(false);
-  const [viewAllJobs, setViewAllJobs] = useState(false);
-  const [jobStats, setJobStats] = useState(true);
-  const [appStats, setAppStats] = useState(false);
-  const [leaderboard, setLeaderboard] = useState(false);
 
   useEffect(() => {
     const userCheckStr = sessionStorage.getItem("User");
@@ -57,15 +46,13 @@ export default function ViewAllJobs() {
     }
   }, [username, navigate]);
 
-  // Include `navigate` in dependencies
-
   useEffect(() => {
     const username = JSON.parse(sessionStorage.getItem("User")).username;
     api
       .get(`/jobs/${username}`)
       .then((response) => {
         setJobs(response.data);
-        console.log(jobs);
+        // console.log(jobs);
       })
       .catch((error) => {
         console.error("error fetching job: ", error);
@@ -85,7 +72,7 @@ export default function ViewAllJobs() {
     setSelectedJobId(id);
     setShowDetail(true);
     setShowJobCards(false);
-    console.log("Detail view for job ID:", id);
+    // console.log("Detail view for job ID:", id);
   };
 
   const handelAddJob = () => {
@@ -95,7 +82,7 @@ export default function ViewAllJobs() {
   const handleDelete = async (id) => {
     try {
       await api.delete(`/deleteJobs/${id}`);
-      console.log("Job Deleted Successfully");
+      // console.log("Job Deleted Successfully");
       setJobs((prevJobs) => prevJobs.filter((job) => job.id !== id));
       if (checkSearch) {
         setFilteredJobs((prevFilteredJobs) =>
@@ -117,126 +104,6 @@ export default function ViewAllJobs() {
   };
 
 
-  const handleBack = () => {
-    setShowDetail(false);
-    setSelectedJobId(null);
-  };
-
-  const handleEditClick = () => {
-    setEditmode(true);
-    setEditJob({ ...jobs.find((job) => job.id === selectedJobId) });
-  };
-
-  const selectedJob = jobs.find((job) => job.id === selectedJobId);
-
-  const handleInputChange = (e, field) => {
-    setEditJob((prev) => ({ ...prev, [field]: e.target.value }));
-  };
-
-
-  const handleSave = async () => {
-    try {
-      await api.put(`/editJobs/${editJob.id}`, editJob);
-      console.log("edited job successfully");
-      setEditmode(false);
-      setJobs((prevJobs) =>
-        prevJobs.map((j) => (j.id === editJob.id ? { ...j, ...editJob } : j))
-      );
-    } catch (error) {
-      console.error("Error saving job:", error);
-    }
-  };
-
-  const handleCancel = () => {
-    setEditmode(false);
-  };
-
-  const handleCheckboxChange = async (jobId, field) => {
-    const updatedJob = { ...jobs.find((job) => job.id === jobId) };
-    updatedJob[field] = !updatedJob[field];
-
-    // Enforce rules
-    if (field === "interviewing") {
-      updatedJob.application_processing = false;
-      updatedJob.following_up = false;
-      updatedJob.rejected = false;
-    } else if (field === "rejected") {
-      updatedJob.application_processing = false;
-      updatedJob.interviewing = false;
-    } else if (field === "application_processing") {
-      updatedJob.interviewing = false;
-      updatedJob.rejected = false;
-    } else if (field === "following_up") {
-      updatedJob.interviewing = false;
-    }
-
-    try {
-      await api.put(`/editJobs/${jobId}`, updatedJob);
-      setJobs((prevJobs) =>
-        prevJobs.map((j) => (j.id === jobId ? updatedJob : j))
-      );
-      setFilteredJobs((prevFilteredJobs) =>
-        prevFilteredJobs.map((j) => (j.id === jobId ? updatedJob : j))
-      );
-    } catch (error) {
-      console.error("Error updating job status:", error);
-    }
-  };
-  // const handleHome = () => {
-  //   setLeaderboard(false);
-  //   setHome(true);
-  //   setAddJob(false);
-  //   setViewAllJobs(false);
-  //   setOpen(false);
-  // };
-
-  // const handleJobs = () => {
-  //   console.log('Navigating to:', `/jobs/${storedUser.username}`);
-  //   navigate(`/jobs/${username}`);
-  // };
-
-  // const handleLogout = () => {
-  //   sessionStorage.clear();
-  //   navigate("/");
-  //   setOpen(false);
-  // };
-
-  // const handleJobStats = () => {
-  //   setLeaderboard(false);
-  //   setAppStats(false);
-  //   setJobStats(true);
-  // };
-
-  // const handleAppStats = () => {
-  //   setLeaderboard(false);
-  //   setAppStats(true);
-  //   setJobStats(false);
-  // };
-
-  // const handleLeaderboard = () => {
-  //   setAppStats(false);
-  //   setJobStats(false);
-  //   setLeaderboard(true);
-  // };
-
-  // const getShadowClass = (job) => {
-  //   if (job.interviewing) return "shadow-green";
-  //   if (job.rejected) return "shadow-red";
-  //   if (job.application_processing && job.following_up) return "shadow-orange";
-  //   if (job.application_processing) return "shadow-blue";
-  //   if (job.following_up) return "shadow-yellow";
-  //   return "shadow-normal";
-  // };
-
-  // const getApplicationStatus = (job) => {
-  //   let status = [];
-  //   if (job.application_processing) status.push("Application Processing");
-  //   if (job.following_up) status.push("Following Up");
-  //   if (job.interviewing) status.push("Interviewing");
-  //   if (job.rejected) status.push("Rejected");
-  //   return status.join(" & ") || "Application status not selected !!";
-  // };
-
   const handleSearch = async () => {
     if (search.trim()) {
       const username = JSON.parse(sessionStorage.getItem("User")).username;
@@ -255,10 +122,6 @@ export default function ViewAllJobs() {
     }
   };
 
-  const [jobStatus, setJobStatus] = useState();
-  const handleStatus = (stat) => {
-    setJobStatus(stat);
-  };
   return (
     <>
       {authenticate && storedUser ? (

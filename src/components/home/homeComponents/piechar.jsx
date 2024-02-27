@@ -23,7 +23,7 @@ function PieChart() {
     }, []);
 
     const checkAllStatsZero = (stats) => {
-        console.log('pie_stats: ', stats)
+        // console.log('pie_stats: ', stats)
         return stats && Object.values(stats).every(value => value === 0);
     };
 

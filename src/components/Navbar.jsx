@@ -18,6 +18,7 @@ function classNames(...classes) {
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState("home");
   const [addJob, setAddJob] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [isOpen, setIsOpen] = useState(false);
   const [storedUser, setStoredUser] = useState(null);
   const [notification, setNotification] = useState(false);
@@ -68,7 +69,7 @@ const Navbar = () => {
     fetchNotificationCount();
 
     // Setup socket listener for real-time updates
-    const socket = io('https://job-peer.onrender.com', {
+    const socket = io(process.env.REACT_APP_SOCKET_URL, {
       withCredentials: true,
       transports: ['websocket']
     });
@@ -87,12 +88,6 @@ const Navbar = () => {
       socket.disconnect(); 
     };
   }, [username]);
-  // const handleJobs = () => {
-  //   handleLinkClick("jobs"); // First update the active link
-  //   console.log("activeLink after updating:", activeLink);
-  //   console.log("Navigating to:", `/jobs/${username}`);
-  //   navigate(`/jobs/${username}`); // Then navigate
-  // };
 
   const handleJobs = () => {
     if (storedUser && storedUser.username) {
@@ -107,14 +102,14 @@ const Navbar = () => {
 
   const handleHome = () => {
     handleLinkClick("home"); // First update the active link
-    console.log("activeLink after updating:", activeLink);
-    console.log("Navigating to:", `/home/${username}`);
+    // console.log("activeLink after updating:", activeLink);
+    // console.log("Navigating to:", `/home/${username}`);
     navigate(`/home/${username}`); // Then navigate
   };
   const handleLeaderboard = () => {
     handleLinkClick("home");
-    console.log("activeLink after updating:", activeLink);
-    console.log("Navigating to:", `/leaderboard/${username}`);
+    // console.log("activeLink after updating:", activeLink);
+    // console.log("Navigating to:", `/leaderboard/${username}`);
     navigate(`/leaderboard/${username}`);
   };
 
@@ -137,20 +132,6 @@ const Navbar = () => {
   const handleNotification = () => {
     setNotification(!notification);
   }
-
-  // const handleJobStats = () => {
-  //   setLeaderboard(false);
-  //   setAppStats(false);
-  //   setJobStats(true);
-  // };
-
-  // const handleAppStats = () => {
-  //   setLeaderboard(false);
-  //   setAppStats(true);
-  //   setJobStats(false);
-  // };
-
-
 
   return (
     <Disclosure as="nav" className="bg-white shadow">
@@ -280,32 +261,6 @@ const Navbar = () => {
                       leaveTo="transform opacity-0 scale-95"
                     >
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        {/* <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700 no-underline"
-                              )}
-                            >
-                              Your Profile
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700 no-underline"
-                              )}
-                            >
-                              Settings
-                            </a>
-                          )}
-                        </Menu.Item> */}
                         <Menu.Item>
                           {({ active }) => (
                             <a
@@ -409,20 +364,6 @@ const Navbar = () => {
                 </button>
               </div>
               <div className="mt-3 space-y-1">
-                {/* <Disclosure.Button
-                  as="a"
-                  href="#"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6 no-underline"
-                >
-                  Your Profile
-                </Disclosure.Button> */}
-                {/* <Disclosure.Button
-                  as="a"
-                  href="#"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6 no-underline"
-                >
-                  Settings
-                </Disclosure.Button> */}
                 <Disclosure.Button
                   onClick={handleLogout}
                   as="a"

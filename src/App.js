@@ -10,6 +10,8 @@ import ViewAllJobs from './components/Jobs';
 import './App.css'
 import About from './components/About';
 import Peerchat from './components/Peerchat';
+import ForgetPassword from './components/ForgetPassword';
+import ResetPassword from './components/ResetPass';
 
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
         <Route path='/leaderboard/:username' element={<Leaderboard/>}/>
         <Route path='/jobs/:username' element={<ViewAllJobs/>} />
         <Route path='/peerchat/:username' element={<Peerchat/>} />
+        <Route path='/forget-password' element={<ForgetPassword />}/>
+        <Route path='/reset-password/:token' element={<ResetPassword />}/>
         <Route path="*" element={<PageNotFound />}/>
       </Routes>
     </Router>

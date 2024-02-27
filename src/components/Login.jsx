@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
 import api from '../config/axios'
 import { useNavigate } from 'react-router-dom';
 import logo from '../../src/assets/J.png'
@@ -159,7 +157,7 @@ export default function Login() {
                 </div>
 
                 <div className="text-sm leading-6">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                  <a href="#" onClick={() => navigate('/forget-password')} className="font-semibold text-indigo-600 hover:text-indigo-500">
                     Forgot password?
                   </a>
                 </div>
@@ -186,7 +184,7 @@ export default function Login() {
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-4">
-                <a
+                <button
                   style={{textDecoration: 'none', cursor:'pointer'}}
                   href="#"
                   className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
@@ -211,9 +209,9 @@ export default function Login() {
                     />
                   </svg>
                   <span className="text-sm font-semibold leading-6">Google</span>
-                </a>
+                </button>
 
-                <a
+                <button
                   style={{textDecoration: 'none', cursor:'pointer'}}
                   href="#"
                   className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:ring-transparent"
@@ -226,16 +224,16 @@ export default function Login() {
                     />
                   </svg>
                   <span className="text-sm font-semibold leading-6">GitHub</span>
-                </a>
+                </button>
               </div>
             </div>
           </div>
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{' '}
-            <a style={{textDecoration: 'none', cursor:'pointer'}} onClick={handleSignup} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <button style={{textDecoration: 'none', cursor:'pointer'}} onClick={handleSignup} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Sign Up
-            </a>
+            </button>
           </p>
         </div>
       </div>

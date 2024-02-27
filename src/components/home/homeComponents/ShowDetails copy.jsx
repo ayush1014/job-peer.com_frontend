@@ -19,7 +19,7 @@ function ViewJobs() {
         // console.log('response: ', job)
       })
       .catch((error) => {
-        console.error("error fetching job: ", error);
+        // console.error("error fetching job: ", error);
       });
   }, [id]);
 
@@ -45,7 +45,7 @@ function ViewJobs() {
   const handleSave = async () => {
     try {
       const response = await api.put(`/editJobs/${editJob.id}`, editJob);
-      console.log("Job edited successfully:", response.data);
+      // console.log("Job edited successfully:", response.data);
 
       // Update the job with the new job data
       setJob({ ...job, ...editJob });

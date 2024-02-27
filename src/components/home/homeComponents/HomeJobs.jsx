@@ -4,6 +4,7 @@ import JobDetailsModal from "./HomeJobDetailModal";
 
 function HomeJobs() {
   const [jobs, setJobs] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [selectedJob, setSelectedJob] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [selectedJobId, setSelectedJobId] = useState(null);
@@ -20,25 +21,6 @@ function HomeJobs() {
       });
   }, []);
 
-  const getShadowClass = (job) => {
-    if (job.interviewing) return "shadow-green";
-    if (job.rejected) return "shadow-red";
-    if (job.application_processing && job.following_up) return "shadow-orange";
-    if (job.application_processing) return "shadow-blue";
-    if (job.following_up) return "shadow-yellow";
-    return "shadow-normal";
-  };
-
-  const handleJob = (id) => {
-    // Use a function that returns another function to handle the click event
-    return () => {
-      const job = jobs.find((j) => j.id === id); // Find the job by id
-      setSelectedJob(job); // Set the selected job state
-      console.log(selectedJob);
-      setIsModalOpen(true); // Open the modal
-    };
-  };
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -46,7 +28,7 @@ function HomeJobs() {
   return (
     <>
       <div className="allJobs">
-        <ul role="list" className="pl-0 mt-6 space-y-6">
+        <ul className="pl-0 mt-6 space-y-6">
           {jobs
             ? jobs.slice(0, 5).map((activityItem) => (
                 <li key={activityItem.id} className="relative flex gap-x-4">

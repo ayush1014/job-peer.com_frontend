@@ -12,10 +12,10 @@ function JobStatsBarChart() {
     useEffect(() => {
         const username = JSON.parse(sessionStorage.getItem('User')).username;
         const timeZone = encodeURIComponent(Intl.DateTimeFormat().resolvedOptions().timeZone);
-        console.log('timezone', timeZone)
+        // console.log('timezone', timeZone)
         api.get(`/jobStatsByTimeFrame/${username}/${timeFrame}/${timeZone}`)
           .then(response => {
-            console.log('response: ', response)
+            // console.log('response: ', response)
             if (response.data && response.data.length) {
               // Transform the data here to match the format expected by Chart.js
               const transformedData = {
@@ -29,13 +29,13 @@ function JobStatsBarChart() {
                 }]
               };
               setChartData(transformedData);
-              console.log(response.data)
+              // console.log(response.data)
             } else {
               setChartData(null);
             }
           })
           .catch(error => {
-            console.error(error);
+            // console.error(error);
             setChartData(null);
           });
       }, [timeFrame]);

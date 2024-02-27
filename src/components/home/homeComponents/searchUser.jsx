@@ -29,7 +29,7 @@ function SearchUser() {
             const response = await api.get(`/searchPeer/${username}/${query}`);
             setMatchingUsers(response.data);
         } catch (error) {
-            console.error('Error fetching matching users:', error);
+            // console.error('Error fetching matching users:', error);
             setMatchingUsers([]);
         }
     };
