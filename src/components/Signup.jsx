@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import api from '../config/axios'
 import { useNavigate } from 'react-router-dom';
 import logo from '../../src/assets/J.png'
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import auth from '../components/Firebase'
 
 
@@ -29,7 +29,7 @@ export default function Signup() {
             'password' : password,
             'timeZone' : currentTimezone
         }
-        console.log(userInfo)
+        // console.log(userInfo)
         try{
             const createUser = await api.post('/register', userInfo);
             console.log('user created successfully, Status: ', createUser.status);
@@ -48,7 +48,7 @@ export default function Signup() {
       const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       try{
         const result = await signInWithPopup(auth, provider);
-        console.log(result);
+        // console.log(result);
         const responseGoogle = {
           'username':  result.user.email.split('@')[0],
           'name': result.user.displayName,
@@ -56,16 +56,16 @@ export default function Signup() {
           'password': result._tokenResponse.localId,
           'timezone': currentTimezone
         }
-        console.log(responseGoogle)
+        // console.log(responseGoogle)
         try{
-          const createUser = await api.post('/register', responseGoogle);
+          await api.post('/register', responseGoogle);
           setStatus(true);
-          console.log('done.!')
-          console.log('user created successfully, Status: ', createUser.status);
+          // console.log('done.!')
+          // console.log('user created successfully, Status: ', createUser.status);
         }
         catch{
           setStatus(true);
-          console.log(status);
+          // console.log(status);
         }
         // sessionStorage.setItem('User', JSON.stringify(responseGoogle.data));
   

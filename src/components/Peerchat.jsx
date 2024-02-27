@@ -4,8 +4,8 @@ import { ChatBubbleOvalLeftIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import api from '../config/axios';
 import io from 'socket.io-client';
 
-// const socket = io('http://localhost:8000');
-const socket = io('https://job-peer.onrender.com');
+const socket = io(process.env.REACT_APP_SOCKET_URL);
+
 
 export default function Peerchat() {
   const [peerJobs, setPeerJobs] = useState([]);
@@ -120,7 +120,7 @@ export default function Peerchat() {
         console.error('Error fetching peer jobs:', error);
       }
     };
-    console.log(peerJobs)
+    // console.log(peerJobs)
     fetchPeers();
   }, [activeChatUser]);
 

@@ -1,12 +1,10 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import useNotifications from './notificationHook';
 
 const Notification = ({ isOpen, setIsOpen }) => {
-  // const [open, setOpen] = useState(false);
   const username = JSON.parse(sessionStorage.getItem("User")).username;
-  console.log(username)
   const notifications = useNotifications(username);
 
   useEffect(() => {

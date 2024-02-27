@@ -21,7 +21,7 @@ function ShowDetails({ jobId, onBack, onUpdate }) {
         const response = await api.get(`/jobDetail/${username}/${jobId}`);
         setFormData({ ...response.data, job_applied_date: new Date(response.data.job_applied_date).toLocaleString() });
       } catch (error) {
-        console.error("Error fetching job details:", error);
+        // console.error("Error fetching job details:", error);
       }
     };
     if (jobId) fetchJobDetails();

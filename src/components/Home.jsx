@@ -1,59 +1,22 @@
-import { Fragment } from "react";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import AddJobs from "./home/homeComponents/addJobs";
-import ViewJobs from "./Jobs";
 import Piechar from "./home/homeComponents/piechar";
 import JobStatsBarChart from "./home/homeComponents/barchat";
 import HomeJobs from "./home/homeComponents/HomeJobs";
-import Hamburger from "hamburger-react";
-import Leaderboard from "./Leaderboard";
 import Navbar from "./Navbar";
-import SearchUser from "./home/homeComponents/searchUser";
 import PageNotFound from "./NotFound";
-import { Dialog, Listbox, Menu, Transition } from "@headlessui/react";
 import api from "../config/axios";
 import './Home.css'
 
-import {
-  Bars3Icon,
-  CalendarDaysIcon,
-  CreditCardIcon,
-  EllipsisVerticalIcon,
-  FaceFrownIcon,
-  FaceSmileIcon,
-  FireIcon,
-  HandThumbUpIcon,
-  HeartIcon,
-  PaperClipIcon,
-  UserCircleIcon,
-  XMarkIcon as XMarkIconMini,
-} from "@heroicons/react/20/solid";
-import {
-  BellIcon,
-  XMarkIcon as XMarkIconOutline,
-} from "@heroicons/react/24/outline";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
-
 
 export default function Home() {
-  // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // const [selected, setSelected] = useState(moods[5]);
   const { username } = useParams();
   const navigate = useNavigate();
-
-  // const [isOpen, setOpen] = useState(false);
   const [storedUser, setStoredUser] = useState(null);
   const [authenticate, setAuthenticate] = useState(false);
-  // const [home, setHome] = useState(true);
-  const [addJob, setAddJob] = useState(false);
   const [userLeaderboard, setUserLeaderboard] = useState();
-  // const [viewAllJobs, setViewAllJobs] = useState(false);
-  const [jobStats, setJobStats] = useState(true);
-  const [appStats, setAppStats] = useState(false);
   const [peerCount, setPeerCount] = useState();
   const [jobCount, setJobCount] = useState(false);
-  // const [leaderboard, setLeaderboard] = useState(false);
 
   useEffect(() => {
     const userCheckStr = sessionStorage.getItem("User");
@@ -63,12 +26,6 @@ export default function Home() {
     } else {
       console.log("Nothing in Storage");
     }
-
-    // // Cleanup function with a delay to clear session storage return () => {
-    // const timeoutId = setTimeout(() => {     sessionStorage.clear();
-    // console.log('Session storage cleared after 5 minutes');   }, 300000); //
-    // 300000 milliseconds = 5 minutes   // Clear the timeout if the component
-    // remounts within the delay period   return () => clearTimeout(timeoutId); };
   }, []);
 
   useEffect(() => {
@@ -95,7 +52,7 @@ export default function Home() {
           const countPeer = await api.get(`/peerCount/${userCheck.username}`)
           setUserLeaderboard(response.data);
           setPeerCount(countPeer.data);
-          console.log('Leaderboard details:', response.data);
+          // console.log('Leaderboard details:', response.data);
         } else {
           console.log("Nothing in Storage");
         }
@@ -115,42 +72,6 @@ export default function Home() {
       setJobCount(false)
     }
   }, [userLeaderboard]);
-
-
-  // useEffect(()=>{
-  //   const getLeaderBoard = async()=>{
-  //     await api.get(``)
-  //   }
-  // })
-  // const handleHome = () => {
-  //   setLeaderboard(false);
-  //   setHome(true);
-  //   setAddJob(false);
-  //   setViewAllJobs(false);
-  //   setOpen(false);
-  // };
-
-  // const handleLogout = () => {
-  //   sessionStorage.clear();
-  //   navigate("/");
-  //   setOpen(false);
-  // };
-
-  const handleJobStats = () => {
-    setAppStats(false);
-    setJobStats(true);
-  };
-
-  const handleAppStats = () => {
-    setAppStats(true);
-    setJobStats(false);
-  };
-
-  // const handleLeaderboard = () => {
-  //   setAppStats(false);
-  //   setJobStats(false);
-  //   setLeaderboard(true);
-  // };
 
 
   const stats = storedUser && userLeaderboard ? [

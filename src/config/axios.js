@@ -1,9 +1,8 @@
 import axios from 'axios'
-
+// console.log("URL",process.env.REACT_APP_BASE_URL)
 //setting the base url for ease
 const api = axios.create({
-    // baseURL: 'http://localhost:8000/jat/'
-    baseURL: 'https://job-peer.onrender.com/jat'
+    baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 export default api;

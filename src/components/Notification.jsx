@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon, EllipsisVerticalIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import useNotifications from './notificationHook';
 import { MdDeleteForever } from "react-icons/md";
 import api from '../config/axios'; // Ensure the import path is correct
@@ -21,12 +21,10 @@ export default function Notification({ isOpen, setIsOpen }) {
   }, [fetchedNotifications]);
 
   const handleAccept = async (id, sender) => {
-    // Implement the logic to accept the notification here
-    // Optionally, delete the notification from the backend
     await api.put(`/peerFollowed/${sender}/${username}`)
     setNotifications(notifications.filter(notification => notification.id !== id));
     // window.location.reload();
-    console.log(`Accepted notification with ID: ${id}`);
+    // console.log(`Accepted notification with ID: ${id}`);
     await api.delete(`/deleteNotification/${id}`);
     // window.location.reload()
 
@@ -38,13 +36,13 @@ export default function Notification({ isOpen, setIsOpen }) {
     await api.delete(`/peerUnFollow/${sender}/${username}`)
     setNotifications(notifications.filter(notification => notification.id !== id));
     await api.delete(`/deleteNotification/${id}`);
-    console.log(`Declined notification with ID: ${id}`);
+    // console.log(`Declined notification with ID: ${id}`);
 
   };
 
   const handleDelete = async (id, sender) => {
     // Implement the logic to delete the notification from the backend
-    console.log(`Deleting notification with ID: ${id}`);
+    // console.log(`Deleting notification with ID: ${id}`);
     // Example API call to delete the notification
     setNotifications(notifications.filter(notification => notification.id !== id));
     await api.delete(`/deleteNotification/${id}`);
