@@ -31,7 +31,7 @@ export default function ViewAllJobs() {
 
       if (userCheck && userCheck.username === username) {
         setAuthenticate(true);
-        console.log("Authentication successful");
+        // console.log("Authentication successful");
       } else {
         setAuthenticate(false);
         console.log("Invalid User !!");

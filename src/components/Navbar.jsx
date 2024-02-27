@@ -62,7 +62,7 @@ const Navbar = () => {
         const response = await api.get(`/notifications/count/${username}`);
         setNotificationCount(response.data.count);
       } catch (error) {
-        console.error("Failed to fetch notification count", error);
+        // console.error("Failed to fetch notification count", error);
       }
     };
 
@@ -74,7 +74,7 @@ const Navbar = () => {
       transports: ['websocket']
     });
     socket.on('connect', () => {
-      console.log('Connected to WebSocket server for notification count updates');
+      // console.log('Connected to WebSocket server for notification count updates');
       socket.emit('join', username); 
     });
 
