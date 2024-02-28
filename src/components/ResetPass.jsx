@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import api from "../config/axios";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function ResetPassword() {
   const { token } = useParams();
@@ -9,20 +8,28 @@ export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
     setIsError(false);
+    setIsLoading(true);
     try {
-      await api.post(`/reset-password/${token}`, { password });
-      setMessage("Your password has been successfully reset.");
-      setTimeout(() => navigate("/login"), 3000); // Redirect after 3 seconds
+      const response = await api.post(`/reset-password/${token}`, { password });
+      if (response.status === 200) { 
+        setMessage("Your password has been successfully reset.");
+        setTimeout(() => navigate("/login"), 3000);
+      } else {
+        setMessage("Failed to reset password. Please try again later.");
+        setIsError(true);
+      }
     } catch (error) {
       setMessage("Failed to reset password. Please try again later.");
       setIsError(true);
       console.error("Error:", error);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -66,9 +73,10 @@ export default function ResetPassword() {
               <div>
                 <button
                   type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  disabled={isLoading} // Disable button when loading
+                  className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${isLoading ? 'bg-indigo-300' : 'bg-indigo-600 hover:bg-indigo-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                 >
-                  Reset Password
+                  {isLoading ? 'Resetting...' : 'Reset Password'}
                 </button>
               </div>
             </form>
