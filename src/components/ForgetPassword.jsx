@@ -14,7 +14,7 @@ export default function ForgotPassword() {
       await api.post("/forget-password", { email });
       // Set a success message
       setMessage(
-        "You will receive a password reset email shortly."
+        "You will receive a password reset email shortly. Check junk/spam folder for the email."
       );
     } catch (error) {
       // Set an error message
