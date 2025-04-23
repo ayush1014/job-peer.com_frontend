@@ -35,6 +35,17 @@ export default function Login() {
       setStatus(false)
     }
   }
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const fromPortfolio = params.get('fromPortfolio');
+  
+    if (fromPortfolio === 'true') {
+      setUsername("ayush");
+      setPassword("ayush");
+    }
+  }, []);
+
   const handleSignup = ()=>{
     navigate('/signup')
   }
@@ -119,6 +130,7 @@ export default function Login() {
               type="text"
               placeholder="username"
               className={status === false ? 'error-control' : ''}
+              value = {username}
               onChange={(e) => {
                 setUsername(e.target.value)
               }} />
@@ -132,6 +144,7 @@ export default function Login() {
               type="password"
               placeholder="password"
               className={status === false ? 'error-control' : ''}
+              value = {password}
               onChange={(e) => {
                 setPassword(e.target.value)
               }} />
